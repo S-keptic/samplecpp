@@ -1,28 +1,31 @@
 #include <iostream>
-
 using namespace std;
 
 int main (){
-    int n;
-    cin >>n; 
 
-    bool isPrime = 1;
+int num1;
+int num2; 
+char op;
 
-    for(int i = 2 ; i < n ; i++){
+cin >> num1;
+cin >> num2;
+cin >> op; 
 
-        if(n%i==0){
-            cout<<"not a prime";
-            isPrime = 0;
-            break;
-             
-        }
+switch(op){
+    case '+': cout <<num1+num2;
+    break;
+    case '-' : cout <<num1-num2;
+    break;
+    case '/' : cout <<num1/num2;
+    break;
+    case '*' : cout << num1*num2;      
+}
 
-    } 
 
-    
-    if(isPrime==1){
-        cout<<"it is a prime number";  
-    }
+
+
+
+
 
 
 }
