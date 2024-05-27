@@ -1,31 +1,19 @@
 #include <iostream>
 using namespace std;
 
-int main (){
+int iseven(int n){
+    if(n%2==0){
+        return true;
+    }else{
+        return false;
+    }
 
-int num1;
-int num2; 
-char op;
-
-cin >> num1;
-cin >> num2;
-cin >> op; 
-
-switch(op){
-    case '+': cout <<num1+num2;
-    break;
-    case '-' : cout <<num1-num2;
-    break;
-    case '/' : cout <<num1/num2;
-    break;
-    case '*' : cout << num1*num2;      
 }
-
-
-
-
-
-
-
-
+int main(){
+    bool ans = iseven(5);
+    if (ans==1){
+        cout <<"is even"; 
+    }else{
+        cout << "is odd";
+    }
 }
