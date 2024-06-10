@@ -8,7 +8,7 @@ void swap(int arr[],int size){
     }
 }
 
-int main(){
+int main(){ 
     int myarray[5] = {132 ,123 ,135 , 41 ,40};
     swap(myarray,5);
     for(int i = 0; i<5;i++){
