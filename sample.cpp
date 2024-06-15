@@ -2,29 +2,26 @@
 using namespace std;
 
 
-int binarySearch(int arr[],int size,int key){
+int findPivot(int arr[],int size){
     int start = 0;
     int end = size-1;
-    int mid = (start+end)/2;
-     
-     while(start<=end){
-        if(key==arr[mid]){
-            return mid;
-        }
-        if(key>arr[mid]){
+    int mid = start + (end-start)/2;
+
+
+    while(start<end){
+        if(arr[mid]<=arr[0]){
             start = mid +1;
+
         }else{
-            end = mid - 1;
+            end = mid;
         }
-        mid = (start+end)/2;
-     }
-     return -1;
+    }
+    return start;
 }
 
-int main()
-{
-    int even[6] = {2,4,6,8,10};
-    int odd[5] = {4,8,16,20,24};
-    int value = binarySearch(odd,5,20);
-    cout <<value <<endl;  
+int main(){
+    int arr[6] = {1,7,3,6,5,6};
+    int val = findPivot(arr,6);
+    cout << val; 
+
 }
