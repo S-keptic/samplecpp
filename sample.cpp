@@ -1,17 +1,14 @@
 #include <iostream>
 using namespace std;
-int count = 1;
-void f(int n){
-    if(count == n+1){
+
+void f(int i , int n){
+    if(i<1){
         return;
     }
-    cout << count << endl;
-    count++;
-    f(n);
-
-
+    f(i-1,n);
+    cout << i << endl; 
 }
 
-int main(){
-    f(100);
+int main (){
+    f(10,10);
 }
