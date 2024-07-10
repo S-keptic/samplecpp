@@ -1,14 +1,13 @@
 #include <iostream>
 using namespace std;
 
-void f(int i , int n){
-    if(i<1){
-        return;
+int sum(int n){
+    if(n==0){
+        return 0;
     }
-    f(i-1,n);
-    cout << i << endl; 
+    return n + sum(n-1); 
 }
 
-int main (){
-    f(10,10);
+int main(){
+    cout << sum(100);
 }
