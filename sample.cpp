@@ -10,4 +10,4 @@ int sum(int n){
 
 int main(){
     cout << sum(100);
-}
+} 
