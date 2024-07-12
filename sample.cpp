@@ -1,22 +1,19 @@
 #include <iostream>
 using namespace std;
 
-void arraySwap(int arr[],int l , int r){
-    if(l>=r){
-        return;
-    }
-    swap(arr[l],arr[r]);
-    arraySwap(arr,l+1,r-1);
-}
 
-void printarray(int arr[]){
-    for(int i = 0; i < 5;i++){
-        cout << arr[i] << " ";
+bool isPalindrome(int i , string s){
+    if(i>=s.size()/2){
+        return true;
     }
+    if(s[i]!=s[s.size()-i-1]){
+        return false;
+    }
+    return isPalindrome(i+1,s);
 }
 
 int main(){
-    int arr[5] = {1,2,3,4,5};
-    arraySwap(arr,0,4);
-    printarray(arr);
+    string s = "madasas";
+    cout << isPalindrome(0,s);
+    return 0;
 }
