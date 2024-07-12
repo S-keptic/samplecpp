@@ -1,13 +1,22 @@
 #include <iostream>
 using namespace std;
 
-int sum(int n){
-    if(n==0){
-        return 0;
+void arraySwap(int arr[],int l , int r){
+    if(l>=r){
+        return;
     }
-    return n + sum(n-1); 
+    swap(arr[l],arr[r]);
+    arraySwap(arr,l+1,r-1);
+}
+
+void printarray(int arr[]){
+    for(int i = 0; i < 5;i++){
+        cout << arr[i] << " ";
+    }
 }
 
 int main(){
-    cout << sum(100);
-} 
+    int arr[5] = {1,2,3,4,5};
+    arraySwap(arr,0,4);
+    printarray(arr);
+}
