@@ -1,19 +1,14 @@
 #include <iostream>
 using namespace std;
 
+int f(int n){
+    if(n<=1){
+        return n;
+    }
+    return f(n-1) + f(n+2);
 
-bool isPalindrome(int i , string s){
-    if(i>=s.size()/2){
-        return true;
-    }
-    if(s[i]!=s[s.size()-i-1]){
-        return false;
-    }
-    return isPalindrome(i+1,s);
 }
 
 int main(){
-    string s = "madasas";
-    cout << isPalindrome(0,s);
-    return 0;
+    cout << f(4);
 }
