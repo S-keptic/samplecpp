@@ -1,1 +1,2 @@
-s
+
+    return ans;

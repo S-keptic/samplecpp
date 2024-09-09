@@ -1,21 +1,23 @@
-#include <iostream>
-#include <climits>
+#include <iostream> 
+#include <string>
 using namespace std;
 
-int largest_element(int arr[],int n){
-    int largestElement = INT_MIN;
-    for(int i = 0; i<n;i++){
-        if(arr[i]>largestElement){
-            largestElement=arr[i];
+int checkPalindrome(string n) {
+    int start = 0;
+    int end = n.length() - 1;
+    
+    while (start <= end) {
+        if (n[start] != n[end]) {
+            return 0; // Not a palindrome
         }
-
-
+        start++;
+        end--;
     }
-    return largestElement;
+    return 1; // Is a palindrome
 }
 
-int main (){
-    int arr[] = {1,232 ,1341 ,3 , 13 ,13 ,435};
-    int answer = largest_element(arr,5);
-    cout <<answer; 
+int main() {
+    string n = "naman";
+    int value = checkPalindrome(n);
+    cout << value; // 1 if palindrome, 0 otherwise
 }
