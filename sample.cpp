@@ -1,23 +1,36 @@
-#include <iostream> 
-#include <string>
+#include <iostream>
+#include <vector>
 using namespace std;
 
-int checkPalindrome(string n) {
-    int start = 0;
-    int end = n.length() - 1;
-    
-    while (start <= end) {
-        if (n[start] != n[end]) {
-            return 0; // Not a palindrome
+vector<double> findAveragesOfSubarrays(int K, const vector<int>& arr) {
+    vector<double> result;
+    double windowSum = 0;
+    int windowStart = 0;
+
+    // Iterate over the array
+    for (int windowEnd = 0; windowEnd < arr.size(); ++windowEnd) {
+        windowSum += arr[windowEnd];  // Add the next element to the window sum
+
+        // Once we've hit the window size 'K', calculate the average
+        if (windowEnd >= K - 1) {
+            result.push_back(windowSum / K);  // Calculate the average
+            windowSum -= arr[windowStart];    // Subtract the element that's leaving the window
+            ++windowStart;                    // Slide the window ahead
         }
-        start++;
-        end--;
     }
-    return 1; // Is a palindrome
+
+    return result;
 }
 
 int main() {
-    string n = "naman";
-    int value = checkPalindrome(n);
-    cout << value; // 1 if palindrome, 0 otherwise
+    vector<int> arr = {1, 3, 2, 6, -1, 4, 1, 8, 2};
+    int K = 5;
+    vector<double> result = findAveragesOfSubarrays(K, arr);
+
+    cout << "Averages of subarrays of size " << K << ": ";
+    for (double avg : result) {
+        cout << avg << " ";
+    }
+
+    return 0;
 }
