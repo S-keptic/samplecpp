@@ -1,7 +1,10 @@
 {
     "files.associations": {
+        "*.yaml": "javascript",
         "ostream": "cpp",
         "iostream": "cpp",
-        "xutility": "cpp"
+        "xutility": "cpp",
+        "xstring": "cpp",
+        "initializer_list": "cpp"
     }
 }
