@@ -46,10 +46,38 @@ Node * deleteHead(Node* head){
 
 
 
+Node* deleteTheLastNode(Node* head){
+    if(head==nullptr || head->next==nullptr){
+        return nullptr;
+    }
+    Node *temp = head; 
+    while(temp->next->next!=nullptr){
+        temp =temp->next;
+       
+    }
+     delete(temp->next);
+        temp->next = nullptr;
+    return head;
+}
+
+
+
+
+
+
+
+
 int main(){
-    vector<int> arr = {22,4,56,7,7};
+    vector<int> arr = {22,4,56,7};
     Node* head = convertArrToLl(arr);
-    head = deleteHead(head);
-    cout << head->data; 
+    head = deleteTheLastNode(head);
+    Node* temp = head;
+    while(temp){
+        cout <<temp->data<<" "; 
+        temp = temp->next;
+    }
+
+
+
 
 }
