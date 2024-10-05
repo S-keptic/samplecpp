@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventory Management</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #111827;
+            color: #E5E7EB;
+        }
+        .glass {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-gradient-to-br from-gray-900 to-indigo-900">
+    <div class="flex min-h-screen">
+        <!-- Sidebar -->
+        <div class="w-20 bg-gray-900 flex flex-col items-center py-8 glass">
+            <div class="w-12 h-12 bg-indigo-500 rounded-full flex items-center justify-center mb-8">
+                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path></svg>
+            </div>
+            <button class="w-12 h-12 rounded-full bg-gray-800 flex items-center justify-center mb-4 hover:bg-indigo-600 transition-colors">
+                <svg class="w-6 h-6 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path></svg>
+            </button>
+            <button class="w-12 h-12 rounded-full bg-gray-800 flex items-center justify-center hover:bg-indigo-600 transition-colors">
+                <svg class="w-6 h-6 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+            </button>
+        </div>
+
+        <!-- Main Content -->
+        <div class="flex-1 flex flex-col overflow-hidden">
+            <!-- Top Navbar -->
+            <header class="bg-gray-900 p-4 glass">
+                <div class="flex items-center justify-between">
+                    <h1 class="text-2xl font-bold text-indigo-300">Inventory</h1>
+                    <div class="flex items-center space-x-4">
+                        <input type="text" id="searchInput" placeholder="Search..." class="bg-gray-800 text-gray-200 rounded-full px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 glass">
+                        <button id="addItemBtn" class="bg-indigo-600 text-white px-4 py-2 rounded-full hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-colors">Add Item</button>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Content Area -->
+            <main class="flex-1 overflow-x-hidden overflow-y-auto p-6">
+                <!-- Graphs Section -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                    <div class="bg-gray-900 p-4 rounded-lg shadow-lg glass">
+                        <h3 class="text-lg font-semibold mb-4 text-indigo-300">Inventory by Category</h3>
+                        <canvas id="categoryChart"></canvas>
+                    </div>
+                    <div class="bg-gray-900 p-4 rounded-lg shadow-lg glass">
+                        <h3 class="text-lg font-semibold mb-4 text-indigo-300">Stock Levels</h3>
+                        <canvas id="stockChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Inventory Table -->
+                <div class="bg-gray-900 rounded-lg shadow-lg p-6 glass">
+                    <h2 class="text-xl font-semibold text-indigo-300 mb-4">Current Inventory</h2>
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full divide-y divide-gray-700">
+                            <thead class="bg-gray-800">
+                                <tr>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Item</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Quantity</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Category</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="inventoryTableBody" class="bg-gray-900 divide-y divide-gray-800">
+                                <!-- Table rows will be dynamically added here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Add/Edit Item Modal -->
+    <div id="itemModal" class="hidden fixed inset-0 bg-black bg-opacity-50 overflow-y-auto h-full w-full">
+        <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-gray-800 glass">
+            <div class="mt-3 text-center">
+                <h3 id="modalTitle" class="text-lg leading-6 font-medium text-indigo-300">Add New Item</h3>
+                <div class="mt-2 px-7 py-3">
+                    <input type="text" id="itemName" placeholder="Item Name" class="mb-3 px-3 py-2 bg-gray-700 text-gray-200 w-full rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                    <input type="number" id="itemQuantity" placeholder="Quantity" class="mb-3 px-3 py-2 bg-gray-700 text-gray-200 w-full rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                    <select id="itemCategory" class="mb-3 px-3 py-2 bg-gray-700 text-gray-200 w-full rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                        <option value="">Select Category</option>
+                        <option value="Electronics">Electronics</option>
+                        <option value="Clothing">Clothing</option>
+                        <option value="Food">Food</option>
+                        <option value="Books">Books</option>
+                    </select>
+                </div>
+                <div class="items-center px-4 py-3">
+                    <button id="cancelItem" class="px-4 py-2 bg-gray-500 text-white text-base font-medium rounded-md w-full shadow-sm hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-300 mb-2">
+                        Cancel
+                    </button>
+                    <button id="saveItem" class="px-4 py-2 bg-indigo-600 text-white text-base font-medium rounded-md w-full shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                        Save
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sample inventory data
+        let inventoryData = [
+            { id: 1, name: 'Laptop', quantity: 10, category: 'Electronics' },
+            { id: 2, name: 'T-Shirt', quantity: 50, category: 'Clothing' },
+            { id: 3, name: 'Apple', quantity: 100, category: 'Food' },
+            { id: 4, name: 'Novel', quantity: 30, category: 'Books' }
+        ];
+
+        // DOM elements
+        const itemModal = document.getElementById('itemModal');
+        const addItemBtn = document.getElementById('addItemBtn');
+        const cancelItemBtn = document.getElementById('cancelItem');
+        const saveItemBtn = document.getElementById('saveItem');
+        const searchInput = document.getElementById('searchInput');
+        const modalTitle = document.getElementById('modalTitle');
+        const itemNameInput = document.getElementById('itemName');
+        const itemQuantityInput = document.getElementById('itemQuantity');
+        const itemCategoryInput = document.getElementById('itemCategory');
+
+        // Function to update the inventory table
+        function updateInventoryTable(data = inventoryData) {
+            const tableBody = document.getElementById('inventoryTableBody');
+            tableBody.innerHTML = '';
+            data.forEach(item => {
+                const row = `
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-300">${item.name}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-300">${item.quantity}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-300">${item.category}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                            <button onclick="editItem(${item.id})" class="text-indigo-400 hover:text-indigo-300 mr-3">Edit</button>
+                            <button onclick="deleteItem(${item.id})" class="text-red-400 hover:text-red-300">Delete</button>
+                        </td>
+                    </tr>
+                `;
+                tableBody.innerHTML += row;
+            });
+        }
+
+        // Function to update charts
+        function updateCharts() {
+            const categoryData = {
+                Electronics: 0,
+                Clothing: 0,
+                Food: 0,
+                Books: 0
+            };
+            inventoryData.forEach(item => {
+                categoryData[item.category] += item.quantity;
+            });
+            categoryChart.data.datasets[0].data = Object.values(categoryData);
+            categoryChart.update();
+
+            stockChart.data.labels = inventoryData.map(item => item.name);
+            stockChart.data.datasets[0].data = inventoryData.map(item => item.quantity);
+            stockChart.update();
+        }
+
+        // Initialize charts
+        const ctxCategory = document.getElementById('categoryChart').getContext('2d');
+        const categoryChart = new Chart(ctxCategory, {
+            type: 'doughnut',
+            data: {
+                labels: ['Electronics', 'Clothing', 'Food', 'Books'],
+                datasets: [{
+                    data: [10, 50, 100, 30],
+                    backgroundColor: ['#6366F1', '#10B981', '#F59E0B', '#EF4444']
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            color: '#D1D5DB',
+                            font: { family: 'Inter' }
+                        }
+                    }
+                }
+            }
+        });
+
+        const ctxStock = document.getElementById('stockChart').getContext('2d');
+        const stockChart = new Chart(ctxStock, {
+            type: 'bar',
+            data: {
+                labels: ['Laptop', 'T-Shirt', 'Apple', 'Novel'],
+                datasets: [{
+                    label: 'Stock Levels',
+                    data: [10,
